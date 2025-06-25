@@ -4,6 +4,7 @@ declare global {
   interface Window {
     electron: ElectronAPI;
     api: {
+      onPlayTucao: (callback: (task: TucaoData) => void) => void;
       setIgnoreMouseEvents: (ignore: boolean) => void;
       toggleForceIgnoreMouse: () => void;
       onForceIgnoreMouseChanged: (callback: (isForced: boolean) => void) => void;

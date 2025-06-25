@@ -3,9 +3,11 @@ import { app, ipcMain, globalShortcut, desktopCapturer } from 'electron';
 import { electronApp, optimizer } from '@electron-toolkit/utils';
 import { WindowManager } from './window-manager';
 import { MenuManager } from './menu-manager';
+import AudioHttpServer from './http-server';
 
 let windowManager: WindowManager;
 let menuManager: MenuManager;
+let audioServer: AudioHttpServer;
 let isQuitting = false;
 
 function setupIPC(): void {
@@ -73,11 +75,15 @@ app.whenReady().then(() => {
       height: 30,
     },
   });
+
+  audioServer = new AudioHttpServer(13001, window);
+  audioServer.init();
   menuManager.createTray();
 
   window.on('close', (event) => {
     if (!isQuitting) {
       event.preventDefault();
+      audioServer?.close();
       window.hide();
     }
     return false;

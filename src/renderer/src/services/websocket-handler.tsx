@@ -17,6 +17,8 @@ import { AiState, useAiState } from '@/context/ai-state-context';
 import { useLocalStorage } from '@/hooks/utils/use-local-storage';
 import { useGroup } from '@/context/group-context';
 import { useInterrupt } from '@/hooks/utils/use-interrupt';
+import { TucaoData } from '../../../types/tucao_data';
+import { DisplayText } from './websocket-service';
 
 function WebSocketHandler({ children }: { children: React.ReactNode }) {
   const [wsState, setWsState] = useState<string>('CLOSED');
@@ -47,6 +49,30 @@ function WebSocketHandler({ children }: { children: React.ReactNode }) {
   }, [pendingModelInfo, setModelInfo, confUid]);
 
   const { setCurrentHistoryUid, setMessages, setHistoryList, appendHumanMessage } = useChatHistory();
+
+  useEffect(() => {
+    const handlePlayTucao = (task: TucaoData) => {
+      if (task?.audio && task?.text && task?.actions) {
+        addAudioTask({
+          audioBase64: task.audio,
+          volumes: task.volumes || [],
+          sliceLength: task.sliceLength || 0,
+          expressions: task.actions?.expressions || null,
+          displayText: {
+            text: task.text,
+            name: 'Tucao',
+            avatar: '',
+          } as DisplayText,
+          forwarded: false, // Tucao data is not forwarded
+        });
+        console.log('Playing Tucao audio:', task.text);
+      }
+    };
+    const cleanup = (window.api as any)?.onPlayTucao((tucaoData: TucaoData) => {
+      handlePlayTucao(tucaoData);
+    });
+    return () => cleanup?.();
+  }, [addAudioTask]);
 
   const handleControlMessage = useCallback(
     (controlText: string) => {
