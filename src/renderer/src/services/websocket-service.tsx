@@ -28,14 +28,14 @@ export interface AudioPayload {
 export interface Message {
   id: string;
   content: string;
-  role: "ai" | "human";
+  role: 'ai' | 'human';
   timestamp: string;
   name?: string;
   avatar?: string;
 }
 
 export interface Actions {
-  expressions?: string[] | number [];
+  expressions?: string[] | number[];
   pictures?: string[];
   sounds?: string[];
 }
@@ -99,8 +99,7 @@ class WebSocketService {
   }
 
   connect(url: string) {
-    if (this.ws?.readyState === WebSocket.CONNECTING ||
-        this.ws?.readyState === WebSocket.OPEN) {
+    if (this.ws?.readyState === WebSocket.CONNECTING || this.ws?.readyState === WebSocket.OPEN) {
       this.disconnect();
     }
 
@@ -123,7 +122,7 @@ class WebSocketService {
           console.error('Failed to parse WebSocket message:', error);
           toaster.create({
             title: `Failed to parse WebSocket message: ${error}`,
-            type: "error",
+            type: 'error',
             duration: 2000,
           });
         }
