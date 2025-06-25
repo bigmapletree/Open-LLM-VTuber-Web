@@ -1,13 +1,13 @@
 /* eslint-disable react/require-default-props */
-import { Stack } from '@chakra-ui/react';
-import { useEffect } from 'react';
-import { settingStyles } from './setting-styles';
-import { useASRSettings } from '@/hooks/sidebar/setting/use-asr-settings';
-import { SwitchField, NumberField } from './common';
+import { Stack } from "@chakra-ui/react";
+import { useEffect } from "react";
+import { settingStyles } from "./setting-styles";
+import { useASRSettings } from "@/hooks/sidebar/setting/use-asr-settings";
+import { SwitchField, NumberField } from "./common";
 
 interface ASRProps {
-  onSave?: (callback: () => void) => () => void
-  onCancel?: (callback: () => void) => () => void
+  onSave?: (callback: () => void) => () => void;
+  onCancel?: (callback: () => void) => () => void;
 }
 
 function ASR({ onSave, onCancel }: ASRProps): JSX.Element {
@@ -59,7 +59,9 @@ function ASR({ onSave, onCancel }: ASRProps): JSX.Element {
       <NumberField
         label="Speech Prob Threshold"
         value={localSettings.positiveSpeechThreshold}
-        onChange={(value) => handleInputChange('positiveSpeechThreshold', value)}
+        onChange={(value) =>
+          handleInputChange("positiveSpeechThreshold", value)
+        }
         min={1}
         max={100}
       />
@@ -67,7 +69,9 @@ function ASR({ onSave, onCancel }: ASRProps): JSX.Element {
       <NumberField
         label="Negative Speech Threshold"
         value={localSettings.negativeSpeechThreshold}
-        onChange={(value) => handleInputChange('negativeSpeechThreshold', value)}
+        onChange={(value) =>
+          handleInputChange("negativeSpeechThreshold", value)
+        }
         min={0}
         max={100}
       />
@@ -75,7 +79,7 @@ function ASR({ onSave, onCancel }: ASRProps): JSX.Element {
       <NumberField
         label="Redemption Frames"
         value={localSettings.redemptionFrames}
-        onChange={(value) => handleInputChange('redemptionFrames', value)}
+        onChange={(value) => handleInputChange("redemptionFrames", value)}
         min={1}
         max={100}
       />

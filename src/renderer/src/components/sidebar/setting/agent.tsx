@@ -1,11 +1,11 @@
-import { Stack } from '@chakra-ui/react';
-import { settingStyles } from './setting-styles';
-import { useAgentSettings } from '@/hooks/sidebar/setting/use-agent-settings';
-import { SwitchField, NumberField } from './common';
+import { Stack } from "@chakra-ui/react";
+import { settingStyles } from "./setting-styles";
+import { useAgentSettings } from "@/hooks/sidebar/setting/use-agent-settings";
+import { SwitchField, NumberField } from "./common";
 
 interface AgentProps {
-  onSave?: (callback: () => void) => () => void
-  onCancel?: (callback: () => void) => () => void
+  onSave?: (callback: () => void) => () => void;
+  onCancel?: (callback: () => void) => () => void;
 }
 
 function Agent({ onSave, onCancel }: AgentProps): JSX.Element {

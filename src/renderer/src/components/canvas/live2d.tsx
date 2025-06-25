@@ -34,14 +34,21 @@ export const Live2D = memo(({ isPet }: Live2DProps): JSX.Element => {
     if (modelRef.current) {
       // @ts-ignore
       window.live2d = {
-        expression: (name?: string | number) => modelRef.current?.expression(name),
+        expression: (name?: string | number) =>
+          modelRef.current?.expression(name),
         setExpression: (name?: string | number) => {
           if (name !== undefined) {
-            modelRef.current?.internalModel.motionManager.expressionManager?.setExpression(name);
+            modelRef.current?.internalModel.motionManager.expressionManager?.setExpression(
+              name,
+            );
           }
         },
-        setRandomExpression: () => modelRef.current?.internalModel.motionManager.expressionManager?.setRandomExpression(),
-        getExpressions: () => modelRef.current?.internalModel.motionManager.expressionManager?.definitions.map((d) => d.name),
+        setRandomExpression: () =>
+          modelRef.current?.internalModel.motionManager.expressionManager?.setRandomExpression(),
+        getExpressions: () =>
+          modelRef.current?.internalModel.motionManager.expressionManager?.definitions.map(
+            (d) => d.name,
+          ),
       };
     }
     return () => {

@@ -1,48 +1,53 @@
 /* eslint-disable react/require-default-props */
 import {
-  Text, Input, NumberInput, createListCollection,
-} from '@chakra-ui/react';
-import { Field } from '@/components/ui/field';
-import { Switch } from '@/components/ui/switch';
+  Text,
+  Input,
+  NumberInput,
+  createListCollection,
+} from "@chakra-ui/react";
+import { Field } from "@/components/ui/field";
+import { Switch } from "@/components/ui/switch";
 import {
   SelectContent,
   SelectItem,
   SelectRoot,
   SelectTrigger,
   SelectValueText,
-} from '@/components/ui/select';
-import { settingStyles } from './setting-styles';
+} from "@/components/ui/select";
+import { settingStyles } from "./setting-styles";
 
 // Common Props Types
 interface SelectFieldProps {
-  label: string
-  value: string[]
-  onChange: (value: string[]) => void
-  collection: ReturnType<typeof createListCollection<{ label: string; value: string }>>
-  placeholder: string
+  label: string;
+  value: string[];
+  onChange: (value: string[]) => void;
+  collection: ReturnType<
+    typeof createListCollection<{ label: string; value: string }>
+  >;
+  placeholder: string;
 }
 
 interface NumberFieldProps {
-  label: string
-  value: number | string
-  onChange: (value: string) => void
-  min?: number
-  max?: number
-  step?: number
-  allowMouseWheel?: boolean
+  label: string;
+  value: number | string;
+  onChange: (value: string) => void;
+  min?: number;
+  max?: number;
+  step?: number;
+  allowMouseWheel?: boolean;
 }
 
 interface SwitchFieldProps {
-  label: string
-  checked: boolean
-  onChange: (checked: boolean) => void
+  label: string;
+  checked: boolean;
+  onChange: (checked: boolean) => void;
 }
 
 interface InputFieldProps {
-  label: string
-  value: string
-  onChange: (value: string) => void
-  placeholder?: string
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  placeholder?: string;
 }
 
 // Reusable Components
@@ -112,7 +117,11 @@ export function NumberField({
   );
 }
 
-export function SwitchField({ label, checked, onChange }: SwitchFieldProps): JSX.Element {
+export function SwitchField({
+  label,
+  checked,
+  onChange,
+}: SwitchFieldProps): JSX.Element {
   return (
     <Field
       {...settingStyles.common.field}

@@ -1,7 +1,12 @@
 import {
-  createContext, useContext, useState, memo, useCallback, useMemo,
-} from 'react';
-import { Live2DModel } from 'pixi-live2d-display-lipsyncpatch';
+  createContext,
+  useContext,
+  useState,
+  memo,
+  useCallback,
+  useMemo,
+} from "react";
+import { Live2DModel } from "pixi-live2d-display-lipsyncpatch";
 
 /**
  * Live2D model context state interface
@@ -37,39 +42,41 @@ const Live2DModelContext = createContext<Live2DModelState | null>(null);
  * @param {Object} props - Provider props
  * @param {React.ReactNode} props.children - Child components
  */
-export const Live2DModelProvider = memo(({ children }: { children: React.ReactNode }) => {
-  // State management
-  const [currentModel, setCurrentModel] = useState<Live2DModel | null>(
-    DEFAULT_MODEL_STATE.currentModel,
-  );
+export const Live2DModelProvider = memo(
+  ({ children }: { children: React.ReactNode }) => {
+    // State management
+    const [currentModel, setCurrentModel] = useState<Live2DModel | null>(
+      DEFAULT_MODEL_STATE.currentModel,
+    );
 
-  /**
-   * Update model state partially
-   * @param updates - Partial updates to apply to the model
-   */
-  const updateModelState = useCallback((updates: Partial<Live2DModel>) => {
-    setCurrentModel((prev) => {
-      if (!prev) return null;
-      return Object.assign(prev, updates) as Live2DModel;
-    });
-  }, []);
+    /**
+     * Update model state partially
+     * @param updates - Partial updates to apply to the model
+     */
+    const updateModelState = useCallback((updates: Partial<Live2DModel>) => {
+      setCurrentModel((prev) => {
+        if (!prev) return null;
+        return Object.assign(prev, updates) as Live2DModel;
+      });
+    }, []);
 
-  // Memoized context value
-  const contextValue = useMemo(
-    () => ({
-      currentModel,
-      setCurrentModel,
-      updateModelState,
-    }),
-    [currentModel, updateModelState],
-  );
+    // Memoized context value
+    const contextValue = useMemo(
+      () => ({
+        currentModel,
+        setCurrentModel,
+        updateModelState,
+      }),
+      [currentModel, updateModelState],
+    );
 
-  return (
-    <Live2DModelContext.Provider value={contextValue}>
-      {children}
-    </Live2DModelContext.Provider>
-  );
-});
+    return (
+      <Live2DModelContext.Provider value={contextValue}>
+        {children}
+      </Live2DModelContext.Provider>
+    );
+  },
+);
 
 /**
  * Custom hook to use the Live2D model context
@@ -79,7 +86,7 @@ export function useLive2DModel() {
   const context = useContext(Live2DModelContext);
 
   if (!context) {
-    throw new Error('useLive2DModel must be used within a Live2DModelProvider');
+    throw new Error("useLive2DModel must be used within a Live2DModelProvider");
   }
 
   return context;

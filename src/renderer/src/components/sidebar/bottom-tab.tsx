@@ -1,14 +1,14 @@
 /* eslint-disable */
-import { Tabs } from '@chakra-ui/react'
-import { FiCamera, FiMonitor } from 'react-icons/fi'
-import { sidebarStyles } from './sidebar-styles'
-import CameraPanel from './camera-panel'
-import ScreenPanel from './screen-panel'
+import { Tabs } from "@chakra-ui/react";
+import { FiCamera, FiMonitor } from "react-icons/fi";
+import { sidebarStyles } from "./sidebar-styles";
+import CameraPanel from "./camera-panel";
+import ScreenPanel from "./screen-panel";
 
 function BottomTab(): JSX.Element {
   return (
-    <Tabs.Root 
-      defaultValue="camera" 
+    <Tabs.Root
+      defaultValue="camera"
       variant="plain"
       {...sidebarStyles.bottomTab.container}
     >
@@ -26,7 +26,7 @@ function BottomTab(): JSX.Element {
       <Tabs.Content value="camera">
         <CameraPanel />
       </Tabs.Content>
-      
+
       <Tabs.Content value="screen">
         <ScreenPanel />
       </Tabs.Content>
@@ -34,4 +34,4 @@ function BottomTab(): JSX.Element {
   );
 }
 
-export default BottomTab
+export default BottomTab;

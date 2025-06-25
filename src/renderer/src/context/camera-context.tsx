@@ -6,8 +6,8 @@ import {
   useMemo,
   useCallback,
   ReactNode,
-} from 'react';
-import { toaster } from '@/components/ui/toaster';
+} from "react";
+import { toaster } from "@/components/ui/toaster";
 
 /**
  * Camera configuration interface
@@ -69,13 +69,13 @@ export function CameraProvider({ children }: { children: ReactNode }) {
   const startCamera = useCallback(async () => {
     try {
       if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-        throw new Error('Camera API is not supported on this device');
+        throw new Error("Camera API is not supported on this device");
       }
 
       const devices = await navigator.mediaDevices.enumerateDevices();
-      const hasCamera = devices.some((device) => device.kind === 'videoinput');
+      const hasCamera = devices.some((device) => device.kind === "videoinput");
       if (!hasCamera) {
-        throw new Error('No camera found on this device');
+        throw new Error("No camera found on this device");
       }
 
       const stream = await navigator.mediaDevices.getUserMedia({
@@ -91,10 +91,10 @@ export function CameraProvider({ children }: { children: ReactNode }) {
       }
       setIsStreaming(true);
     } catch (err) {
-      console.error('Failed to start camera:', err);
+      console.error("Failed to start camera:", err);
       toaster.create({
         title: `Failed to start camera: ${err}`,
-        type: 'error',
+        type: "error",
         duration: 2000,
       });
       throw err;
@@ -114,13 +114,13 @@ export function CameraProvider({ children }: { children: ReactNode }) {
   const startBackgroundCamera = useCallback(async () => {
     try {
       if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-        throw new Error('Camera API is not supported on this device');
+        throw new Error("Camera API is not supported on this device");
       }
 
       const devices = await navigator.mediaDevices.enumerateDevices();
-      const hasCamera = devices.some((device) => device.kind === 'videoinput');
+      const hasCamera = devices.some((device) => device.kind === "videoinput");
       if (!hasCamera) {
-        throw new Error('No camera found on this device');
+        throw new Error("No camera found on this device");
       }
 
       const stream = await navigator.mediaDevices.getUserMedia({
@@ -133,10 +133,10 @@ export function CameraProvider({ children }: { children: ReactNode }) {
       backgroundStreamRef.current = stream;
       setIsBackgroundStreaming(true);
     } catch (err) {
-      console.error('Failed to start background camera:', err);
+      console.error("Failed to start background camera:", err);
       toaster.create({
         title: `Failed to start background camera: ${err}`,
-        type: 'error',
+        type: "error",
         duration: 2000,
       });
       throw err;
@@ -166,7 +166,15 @@ export function CameraProvider({ children }: { children: ReactNode }) {
       stopBackgroundCamera,
       isBackgroundStreaming,
     }),
-    [isStreaming, startCamera, stopCamera, cameraConfig, isBackgroundStreaming, startBackgroundCamera, stopBackgroundCamera],
+    [
+      isStreaming,
+      startCamera,
+      stopCamera,
+      cameraConfig,
+      isBackgroundStreaming,
+      startBackgroundCamera,
+      stopBackgroundCamera,
+    ],
   );
 
   return (
@@ -184,7 +192,7 @@ export function useCamera() {
   const context = useContext(CameraContext);
 
   if (!context) {
-    throw new Error('useCamera must be used within a CameraProvider');
+    throw new Error("useCamera must be used within a CameraProvider");
   }
 
   return context;

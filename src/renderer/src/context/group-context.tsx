@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useMemo } from 'react';
+import React, { createContext, useContext, useState, useMemo } from "react";
 
 interface GroupContextState {
   selfUid: string;
@@ -14,7 +14,7 @@ interface GroupContextState {
 const GroupContext = createContext<GroupContextState | null>(null);
 
 export function GroupProvider({ children }: { children: React.ReactNode }) {
-  const [selfUid, setSelfUid] = useState('');
+  const [selfUid, setSelfUid] = useState("");
   const [groupMembers, setGroupMembers] = useState<string[]>([]);
   const [isOwner, setIsOwner] = useState(false);
 
@@ -34,16 +34,17 @@ export function GroupProvider({ children }: { children: React.ReactNode }) {
 
   return (
     // eslint-disable-next-line react/jsx-no-constructed-context-values
-    <GroupContext.Provider value={{
-      selfUid,
-      groupMembers,
-      isOwner,
-      setSelfUid,
-      setGroupMembers,
-      setIsOwner,
-      sortedGroupMembers,
-      resetGroupState,
-    }}
+    <GroupContext.Provider
+      value={{
+        selfUid,
+        groupMembers,
+        isOwner,
+        setSelfUid,
+        setGroupMembers,
+        setIsOwner,
+        sortedGroupMembers,
+        resetGroupState,
+      }}
     >
       {children}
     </GroupContext.Provider>
@@ -53,7 +54,7 @@ export function GroupProvider({ children }: { children: React.ReactNode }) {
 export function useGroup() {
   const context = useContext(GroupContext);
   if (!context) {
-    throw new Error('useGroup must be used within a GroupProvider');
+    throw new Error("useGroup must be used within a GroupProvider");
   }
   return context;
 }

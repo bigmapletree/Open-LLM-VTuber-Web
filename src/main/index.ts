@@ -57,8 +57,8 @@ function setupIPC(): void {
     menuManager.updateConfigFiles(files);
   });
 
-  ipcMain.handle('get-screen-capture', async () => {
-    const sources = await desktopCapturer.getSources({ types: ['screen'] });
+  ipcMain.handle("get-screen-capture", async () => {
+    const sources = await desktopCapturer.getSources({ types: ["screen"] });
     return sources[0].id;
   });
 }
@@ -112,14 +112,16 @@ app.whenReady().then(() => {
     optimizer.watchWindowShortcuts(window);
   });
 
-  app.on('web-contents-created', (_, contents) => {
-    contents.session.setPermissionRequestHandler((webContents, permission, callback) => {
-      if (permission === 'media') {
-        callback(true);
-      } else {
-        callback(false);
-      }
-    });
+  app.on("web-contents-created", (_, contents) => {
+    contents.session.setPermissionRequestHandler(
+      (webContents, permission, callback) => {
+        if (permission === "media") {
+          callback(true);
+        } else {
+          callback(false);
+        }
+      },
+    );
   });
 });
 

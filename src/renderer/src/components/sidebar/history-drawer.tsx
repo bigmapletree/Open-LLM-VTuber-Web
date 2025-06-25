@@ -1,7 +1,7 @@
-import { Box, Button } from '@chakra-ui/react';
-import { FiTrash2 } from 'react-icons/fi';
-import { formatDistanceToNow } from 'date-fns';
-import { memo } from 'react';
+import { Box, Button } from "@chakra-ui/react";
+import { FiTrash2 } from "react-icons/fi";
+import { formatDistanceToNow } from "date-fns";
+import { memo } from "react";
 import {
   DrawerRoot,
   DrawerTrigger,
@@ -13,10 +13,10 @@ import {
   DrawerActionTrigger,
   DrawerBackdrop,
   DrawerCloseTrigger,
-} from '@/components/ui/drawer';
-import { sidebarStyles } from './sidebar-styles';
-import { useHistoryDrawer } from '@/hooks/sidebar/use-history-drawer';
-import { HistoryInfo } from '@/context/websocket-context';
+} from "@/components/ui/drawer";
+import { sidebarStyles } from "./sidebar-styles";
+import { useHistoryDrawer } from "@/hooks/sidebar/use-history-drawer";
+import { HistoryInfo } from "@/context/websocket-context";
 
 // Type definitions
 interface HistoryDrawerProps {
@@ -32,41 +32,45 @@ interface HistoryItemProps {
 }
 
 // Reusable components
-const HistoryItem = memo(({
-  isSelected,
-  latestMessage,
-  onSelect,
-  onDelete,
-  isDeleteDisabled,
-}: HistoryItemProps): JSX.Element => (
-  <Box
-    {...sidebarStyles.historyDrawer.historyItem}
-    {...(isSelected ? sidebarStyles.historyDrawer.historyItemSelected : {})}
-    onClick={onSelect}
-  >
-    <Box {...sidebarStyles.historyDrawer.historyHeader}>
-      <Box {...sidebarStyles.historyDrawer.timestamp}>
-        {latestMessage.timestamp
-          ? formatDistanceToNow(new Date(latestMessage.timestamp), { addSuffix: true })
-          : 'No messages'}
+const HistoryItem = memo(
+  ({
+    isSelected,
+    latestMessage,
+    onSelect,
+    onDelete,
+    isDeleteDisabled,
+  }: HistoryItemProps): JSX.Element => (
+    <Box
+      {...sidebarStyles.historyDrawer.historyItem}
+      {...(isSelected ? sidebarStyles.historyDrawer.historyItemSelected : {})}
+      onClick={onSelect}
+    >
+      <Box {...sidebarStyles.historyDrawer.historyHeader}>
+        <Box {...sidebarStyles.historyDrawer.timestamp}>
+          {latestMessage.timestamp
+            ? formatDistanceToNow(new Date(latestMessage.timestamp), {
+                addSuffix: true,
+              })
+            : "No messages"}
+        </Box>
+        <Button
+          onClick={onDelete}
+          disabled={isDeleteDisabled}
+          {...sidebarStyles.historyDrawer.deleteButton}
+        >
+          <FiTrash2 />
+        </Button>
       </Box>
-      <Button
-        onClick={onDelete}
-        disabled={isDeleteDisabled}
-        {...sidebarStyles.historyDrawer.deleteButton}
-      >
-        <FiTrash2 />
-      </Button>
+      {latestMessage.content && (
+        <Box {...sidebarStyles.historyDrawer.messagePreview}>
+          {latestMessage.content}
+        </Box>
+      )}
     </Box>
-    {latestMessage.content && (
-      <Box {...sidebarStyles.historyDrawer.messagePreview}>
-        {latestMessage.content}
-      </Box>
-    )}
-  </Box>
-));
+  ),
+);
 
-HistoryItem.displayName = 'HistoryItem';
+HistoryItem.displayName = "HistoryItem";
 
 // Main component
 function HistoryDrawer({ children }: HistoryDrawerProps): JSX.Element {
@@ -93,7 +97,9 @@ function HistoryDrawer({ children }: HistoryDrawerProps): JSX.Element {
           <DrawerTitle style={sidebarStyles.historyDrawer.drawer.title}>
             Chat History List
           </DrawerTitle>
-          <DrawerCloseTrigger style={sidebarStyles.historyDrawer.drawer.closeButton} />
+          <DrawerCloseTrigger
+            style={sidebarStyles.historyDrawer.drawer.closeButton}
+          />
         </DrawerHeader>
 
         <DrawerBody>

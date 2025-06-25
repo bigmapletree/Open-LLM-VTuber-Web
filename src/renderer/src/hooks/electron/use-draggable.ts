@@ -1,13 +1,13 @@
-import { useState, useRef } from 'react';
+import { useState, useRef } from "react";
 
 interface Position {
-  x: number
-  y: number
+  x: number;
+  y: number;
 }
 
 interface UseDraggableProps {
-  isPet?: boolean
-  componentId: string
+  isPet?: boolean;
+  componentId: string;
 }
 
 /**
@@ -16,7 +16,10 @@ interface UseDraggableProps {
  * @param componentId - Unique identifier for the component
  * @returns Object containing refs and handlers for dragging functionality
  */
-export function useDraggable({ isPet = false, componentId }: UseDraggableProps) {
+export function useDraggable({
+  isPet = false,
+  componentId,
+}: UseDraggableProps) {
   // Track if the element is currently being dragged
   const [isDragging, setIsDragging] = useState(false);
 
@@ -81,13 +84,13 @@ export function useDraggable({ isPet = false, componentId }: UseDraggableProps) 
     const handleMouseUp = () => {
       setIsDragging(false);
       // Clean up event listeners
-      document.removeEventListener('mousemove', handleMouseMove, true);
-      document.removeEventListener('mouseup', handleMouseUp, true);
+      document.removeEventListener("mousemove", handleMouseMove, true);
+      document.removeEventListener("mouseup", handleMouseUp, true);
     };
 
     // Add event listeners with capture phase
-    document.addEventListener('mousemove', handleMouseMove, true);
-    document.addEventListener('mouseup', handleMouseUp, true);
+    document.addEventListener("mousemove", handleMouseMove, true);
+    document.addEventListener("mouseup", handleMouseUp, true);
   };
 
   return {

@@ -1,22 +1,18 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { Stack } from '@chakra-ui/react';
-import { useEffect } from 'react';
-import { settingStyles } from './setting-styles';
-import { useLive2dSettings } from '@/hooks/sidebar/setting/use-live2d-settings';
-import { SwitchField } from './common';
+import { Stack } from "@chakra-ui/react";
+import { useEffect } from "react";
+import { settingStyles } from "./setting-styles";
+import { useLive2dSettings } from "@/hooks/sidebar/setting/use-live2d-settings";
+import { SwitchField } from "./common";
 
 interface live2DProps {
-  onSave?: (callback: () => void) => () => void
-  onCancel?: (callback: () => void) => () => void
+  onSave?: (callback: () => void) => () => void;
+  onCancel?: (callback: () => void) => () => void;
 }
 
 function live2D({ onSave, onCancel }: live2DProps): JSX.Element {
-  const {
-    modelInfo,
-    handleInputChange,
-    handleSave,
-    handleCancel,
-  } = useLive2dSettings();
+  const { modelInfo, handleInputChange, handleSave, handleCancel } =
+    useLive2dSettings();
 
   useEffect(() => {
     if (!onSave || !onCancel) return;
@@ -35,13 +31,13 @@ function live2D({ onSave, onCancel }: live2DProps): JSX.Element {
       <SwitchField
         label="Pointer Interactive"
         checked={modelInfo.pointerInteractive ?? false}
-        onChange={(checked) => handleInputChange('pointerInteractive', checked)}
+        onChange={(checked) => handleInputChange("pointerInteractive", checked)}
       />
 
       <SwitchField
         label="Enable Scroll to Resize"
         checked={modelInfo.scrollToResize ?? true}
-        onChange={(checked) => handleInputChange('scrollToResize', checked)}
+        onChange={(checked) => handleInputChange("scrollToResize", checked)}
       />
     </Stack>
   );

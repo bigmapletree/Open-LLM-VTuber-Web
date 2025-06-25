@@ -9,17 +9,17 @@ import {
   DrawerFooter,
   DrawerBackdrop,
   DrawerCloseTrigger,
-} from '@chakra-ui/react';
-import { useState, useMemo, useCallback } from 'react';
-import { CloseButton } from '@/components/ui/close-button';
+} from "@chakra-ui/react";
+import { useState, useMemo, useCallback } from "react";
+import { CloseButton } from "@/components/ui/close-button";
 
-import { settingStyles } from './setting-styles';
-import General from './general';
-import Live2D from './live2d';
-import ASR from './asr';
-import TTS from './tts';
-import Agent from './agent';
-import About from './about';
+import { settingStyles } from "./setting-styles";
+import General from "./general";
+import Live2D from "./live2d";
+import ASR from "./asr";
+import TTS from "./tts";
+import Agent from "./agent";
+import About from "./about";
 
 interface SettingUIProps {
   open: boolean;
@@ -30,7 +30,7 @@ interface SettingUIProps {
 function SettingUI({ open, onClose }: SettingUIProps): JSX.Element {
   const [saveHandlers, setSaveHandlers] = useState<(() => void)[]>([]);
   const [cancelHandlers, setCancelHandlers] = useState<(() => void)[]>([]);
-  const [activeTab, setActiveTab] = useState('general');
+  const [activeTab, setActiveTab] = useState("general");
 
   const handleSaveCallback = useCallback((handler: () => void) => {
     setSaveHandlers((prev) => [...prev, handler]);
@@ -66,10 +66,7 @@ function SettingUI({ open, onClose }: SettingUIProps): JSX.Element {
           />
         </Tabs.Content>
         <Tabs.Content value="live2d" {...settingStyles.settingUI.tabs.content}>
-          <Live2D
-            onSave={handleSaveCallback}
-            onCancel={handleCancelCallback}
-          />
+          <Live2D onSave={handleSaveCallback} onCancel={handleCancelCallback} />
         </Tabs.Content>
         <Tabs.Content value="asr" {...settingStyles.settingUI.tabs.content}>
           <ASR onSave={handleSaveCallback} onCancel={handleCancelCallback} />
@@ -78,10 +75,7 @@ function SettingUI({ open, onClose }: SettingUIProps): JSX.Element {
           <TTS />
         </Tabs.Content>
         <Tabs.Content value="agent" {...settingStyles.settingUI.tabs.content}>
-          <Agent
-            onSave={handleSaveCallback}
-            onCancel={handleCancelCallback}
-          />
+          <Agent onSave={handleSaveCallback} onCancel={handleCancelCallback} />
         </Tabs.Content>
         <Tabs.Content value="about" {...settingStyles.settingUI.tabs.content}>
           <About />

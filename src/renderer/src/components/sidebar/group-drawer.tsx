@@ -103,13 +103,19 @@ function GroupDrawer({ children }: GroupDrawerProps) {
                     {((isOwner && memberId !== selfUid) ||
                       (!isOwner && memberId === selfUid)) && (
                       <IconButton
-                        aria-label={memberId === selfUid ? "Leave group" : "Remove member"}
-                        onClick={() => (memberId === selfUid
-                          ? handleLeaveGroup(selfUid)
-                          : handleRemove(memberId))}
+                        aria-label={
+                          memberId === selfUid ? "Leave group" : "Remove member"
+                        }
+                        onClick={() =>
+                          memberId === selfUid
+                            ? handleLeaveGroup(selfUid)
+                            : handleRemove(memberId)
+                        }
                         {...sidebarStyles.groupDrawer.removeButton}
                         size="sm"
-                        title={memberId === selfUid ? "Leave group" : "Remove member"}
+                        title={
+                          memberId === selfUid ? "Leave group" : "Remove member"
+                        }
                       >
                         {memberId === selfUid ? "Leave" : <FiX />}
                       </IconButton>

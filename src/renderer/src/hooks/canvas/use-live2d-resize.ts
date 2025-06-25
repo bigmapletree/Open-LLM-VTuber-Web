@@ -1,7 +1,7 @@
-import { useEffect, useCallback, useRef } from 'react';
-import { Live2DModel } from 'pixi-live2d-display-lipsyncpatch';
-import * as PIXI from 'pixi.js';
-import { ModelInfo, useLive2DConfig } from '@/context/live2d-config-context';
+import { useEffect, useCallback, useRef } from "react";
+import { Live2DModel } from "pixi-live2d-display-lipsyncpatch";
+import * as PIXI from "pixi.js";
+import { ModelInfo, useLive2DConfig } from "@/context/live2d-config-context";
 
 // Speed of model scaling when using mouse wheel
 const SCALE_SPEED = 0.01;
@@ -24,10 +24,7 @@ export const resetModelPosition = (
 };
 
 // Handle model scaling with smooth interpolation
-const handleModelScale = (
-  model: Live2DModel,
-  deltaY: number,
-) => {
+const handleModelScale = (model: Live2DModel, deltaY: number) => {
   const delta = deltaY > 0 ? -SCALE_SPEED : SCALE_SPEED;
   const currentScale = model.scale.x;
   const newScale = currentScale + delta;
@@ -71,34 +68,38 @@ export const useLive2DResize = (
   const lastScaleRef = useRef<number | null>(null);
 
   // Handle mouse wheel scaling
-  const handleWheel = useCallback((e: WheelEvent) => {
-    if (!modelRef.current || !modelInfo?.scrollToResize) return;
-    e.preventDefault();
-    const smoothScale = handleModelScale(modelRef.current, e.deltaY);
+  const handleWheel = useCallback(
+    (e: WheelEvent) => {
+      if (!modelRef.current || !modelInfo?.scrollToResize) return;
+      e.preventDefault();
+      const smoothScale = handleModelScale(modelRef.current, e.deltaY);
 
-    // Only update scale if change is significant
-    const hasSignificantChange = !lastScaleRef.current ||
-      Math.abs(smoothScale - lastScaleRef.current) > 0.0001;
+      // Only update scale if change is significant
+      const hasSignificantChange =
+        !lastScaleRef.current ||
+        Math.abs(smoothScale - lastScaleRef.current) > 0.0001;
 
-    if (hasSignificantChange) {
-      if (scaleUpdateTimeout.current) {
-        clearTimeout(scaleUpdateTimeout.current);
+      if (hasSignificantChange) {
+        if (scaleUpdateTimeout.current) {
+          clearTimeout(scaleUpdateTimeout.current);
+        }
+
+        // Debounce scale updates
+        scaleUpdateTimeout.current = setTimeout(() => {
+          updateModelScale(smoothScale);
+          lastScaleRef.current = smoothScale;
+        }, 500);
       }
-
-      // Debounce scale updates
-      scaleUpdateTimeout.current = setTimeout(() => {
-        updateModelScale(smoothScale);
-        lastScaleRef.current = smoothScale;
-      }, 500);
-    }
-  }, [modelRef, modelInfo?.scrollToResize, updateModelScale]);
+    },
+    [modelRef, modelInfo?.scrollToResize, updateModelScale],
+  );
 
   // Add wheel event listener
   useEffect(() => {
-    const canvas = containerRef.current?.querySelector('canvas');
+    const canvas = containerRef.current?.querySelector("canvas");
     if (canvas) {
-      canvas.addEventListener('wheel', handleWheel, { passive: false });
-      return () => canvas.removeEventListener('wheel', handleWheel);
+      canvas.addEventListener("wheel", handleWheel, { passive: false });
+      return () => canvas.removeEventListener("wheel", handleWheel);
     }
     return undefined;
   }, [handleWheel, containerRef]);
@@ -111,14 +112,20 @@ export const useLive2DResize = (
         const { width, height } = isPet
           ? { width: window.innerWidth, height: window.innerHeight }
           : containerRef.current?.getBoundingClientRect() || {
-            width: 0,
-            height: 0,
-          };
+              width: 0,
+              height: 0,
+            };
 
         // Resize renderer and reset model position
         appRef.current.renderer.resize(width, height);
         appRef.current.renderer.clear();
-        resetModelPosition(modelRef.current, width, height, modelInfo?.initialXshift, modelInfo?.initialYshift);
+        resetModelPosition(
+          modelRef.current,
+          width,
+          height,
+          modelInfo?.initialXshift,
+          modelInfo?.initialYshift,
+        );
       }
     });
 
@@ -132,9 +139,12 @@ export const useLive2DResize = (
   }, [modelRef, containerRef, isPet, appRef]);
 
   // Cleanup timeout on unmount
-  useEffect(() => () => {
-    if (scaleUpdateTimeout.current) {
-      clearTimeout(scaleUpdateTimeout.current);
-    }
-  }, []);
+  useEffect(
+    () => () => {
+      if (scaleUpdateTimeout.current) {
+        clearTimeout(scaleUpdateTimeout.current);
+      }
+    },
+    [],
+  );
 };

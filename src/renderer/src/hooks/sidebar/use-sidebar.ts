@@ -1,7 +1,7 @@
-import { useDisclosure } from '@chakra-ui/react';
-import { useWebSocket } from '@/context/websocket-context';
-import { useInterrupt } from '@/components/canvas/live2d';
-import { useChatHistory } from '@/context/chat-history-context';
+import { useDisclosure } from "@chakra-ui/react";
+import { useWebSocket } from "@/context/websocket-context";
+import { useInterrupt } from "@/components/canvas/live2d";
+import { useChatHistory } from "@/context/chat-history-context";
 
 export const useSidebar = () => {
   const { open, onOpen, onClose } = useDisclosure();
@@ -17,7 +17,7 @@ export const useSidebar = () => {
 
     interrupt();
     sendMessage({
-      type: 'create-new-history',
+      type: "create-new-history",
     });
   };
 

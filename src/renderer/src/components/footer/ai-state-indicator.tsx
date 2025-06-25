@@ -1,6 +1,6 @@
-import { Box, Text } from '@chakra-ui/react';
-import { useAiState } from '@/context/ai-state-context';
-import { footerStyles } from './footer-styles';
+import { Box, Text } from "@chakra-ui/react";
+import { useAiState } from "@/context/ai-state-context";
+import { footerStyles } from "./footer-styles";
 
 function AIStateIndicator(): JSX.Element {
   const { aiState } = useAiState();

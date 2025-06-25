@@ -1,9 +1,14 @@
 import {
-  createContext, useContext, useState, useMemo, useEffect, useCallback,
-} from 'react';
-import { useLocalStorage } from '@/hooks/utils/use-local-storage';
-import { useConfig } from '@/context/character-config-context';
-import { toaster } from '@/components/ui/toaster';
+  createContext,
+  useContext,
+  useState,
+  useMemo,
+  useEffect,
+  useCallback,
+} from "react";
+import { useLocalStorage } from "@/hooks/utils/use-local-storage";
+import { useConfig } from "@/context/character-config-context";
+import { toaster } from "@/components/ui/toaster";
 
 /**
  * Model emotion mapping interface
@@ -96,14 +101,20 @@ const DEFAULT_CONFIG = {
 /**
  * Create the Live2D configuration context
  */
-export const Live2DConfigContext = createContext<Live2DConfigState | null>(null);
+export const Live2DConfigContext = createContext<Live2DConfigState | null>(
+  null,
+);
 
 /**
  * Live2D Configuration Provider Component
  * @param {Object} props - Provider props
  * @param {React.ReactNode} props.children - Child components
  */
-export function Live2DConfigProvider({ children }: { children: React.ReactNode }) {
+export function Live2DConfigProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const { confUid } = useConfig();
 
   const [isPet, setIsPet] = useState(false);
@@ -116,7 +127,8 @@ export function Live2DConfigProvider({ children }: { children: React.ReactNode }
     return () => unsubscribe?.();
   }, []);
 
-  const getStorageKey = (uid: string, isPetMode: boolean) => `${uid}_${isPetMode ? "pet" : "window"}`;
+  const getStorageKey = (uid: string, isPetMode: boolean) =>
+    `${uid}_${isPetMode ? "pet" : "window"}`;
 
   const [modelInfo, setModelInfoState] = useLocalStorage<ModelInfo | undefined>(
     "modelInfo",
@@ -261,7 +273,9 @@ export function useLive2DConfig() {
   const context = useContext(Live2DConfigContext);
 
   if (!context) {
-    throw new Error('useLive2DConfig must be used within a Live2DConfigProvider');
+    throw new Error(
+      "useLive2DConfig must be used within a Live2DConfigProvider",
+    );
   }
 
   return context;

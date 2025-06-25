@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, ReactNode } from 'react';
+import { createContext, useContext, useState, ReactNode } from "react";
 import { toaster } from "@/components/ui/toaster";
 
 interface ScreenCaptureContextType {
@@ -9,19 +9,22 @@ interface ScreenCaptureContextType {
   stopCapture: () => void;
 }
 
-const ScreenCaptureContext = createContext<ScreenCaptureContextType | undefined>(undefined);
+const ScreenCaptureContext = createContext<
+  ScreenCaptureContextType | undefined
+>(undefined);
 
 export function ScreenCaptureProvider({ children }: { children: ReactNode }) {
   const [stream, setStream] = useState<MediaStream | null>(null);
   const [isStreaming, setIsStreaming] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const startCapture = async () => {
     try {
       let mediaStream: MediaStream;
 
       if (window.electron) {
-        const sourceId = await window.electron.ipcRenderer.invoke('get-screen-capture');
+        const sourceId =
+          await window.electron.ipcRenderer.invoke("get-screen-capture");
 
         const displayMediaOptions: DisplayMediaStreamOptions = {
           video: {
@@ -39,23 +42,25 @@ export function ScreenCaptureProvider({ children }: { children: ReactNode }) {
           audio: false,
         };
 
-        mediaStream = await navigator.mediaDevices.getUserMedia(displayMediaOptions);
+        mediaStream =
+          await navigator.mediaDevices.getUserMedia(displayMediaOptions);
       } else {
         const displayMediaOptions: DisplayMediaStreamOptions = {
           video: true,
           audio: false,
         };
-        mediaStream = await navigator.mediaDevices.getDisplayMedia(displayMediaOptions);
+        mediaStream =
+          await navigator.mediaDevices.getDisplayMedia(displayMediaOptions);
       }
 
       setStream(mediaStream);
       setIsStreaming(true);
-      setError('');
+      setError("");
     } catch (err) {
-      setError('Failed to start screen capture');
+      setError("Failed to start screen capture");
       toaster.create({
         title: `Failed to start screen capture: ${err}`,
-        type: 'error',
+        type: "error",
         duration: 2000,
       });
       console.error(err);
@@ -89,7 +94,9 @@ export function ScreenCaptureProvider({ children }: { children: ReactNode }) {
 export const useScreenCaptureContext = () => {
   const context = useContext(ScreenCaptureContext);
   if (context === undefined) {
-    throw new Error('useScreenCaptureContext must be used within a ScreenCaptureProvider');
+    throw new Error(
+      "useScreenCaptureContext must be used within a ScreenCaptureProvider",
+    );
   }
   return context;
 };

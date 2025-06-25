@@ -1,34 +1,34 @@
 /* eslint-disable no-use-before-define */
-import { useState, useEffect } from 'react';
-import { BgUrlContextState } from '@/context/bgurl-context';
-import { defaultBaseUrl, defaultWsUrl } from '@/context/websocket-context';
-import { useSubtitle } from '@/context/subtitle-context';
-import { useCamera } from '@/context/camera-context';
-import { useSwitchCharacter } from '@/hooks/utils/use-switch-character';
-import { useConfig } from '@/context/character-config-context';
+import { useState, useEffect } from "react";
+import { BgUrlContextState } from "@/context/bgurl-context";
+import { defaultBaseUrl, defaultWsUrl } from "@/context/websocket-context";
+import { useSubtitle } from "@/context/subtitle-context";
+import { useCamera } from "@/context/camera-context";
+import { useSwitchCharacter } from "@/hooks/utils/use-switch-character";
+import { useConfig } from "@/context/character-config-context";
 
 interface GeneralSettings {
-  language: string[]
-  customBgUrl: string
-  selectedBgUrl: string[]
-  backgroundUrl: string
-  selectedCharacterPreset: string[]
-  useCameraBackground: boolean
-  wsUrl: string
-  baseUrl: string
-  showSubtitle: boolean
+  language: string[];
+  customBgUrl: string;
+  selectedBgUrl: string[];
+  backgroundUrl: string;
+  selectedCharacterPreset: string[];
+  useCameraBackground: boolean;
+  wsUrl: string;
+  baseUrl: string;
+  showSubtitle: boolean;
 }
 
 interface UseGeneralSettingsProps {
-  bgUrlContext: BgUrlContextState | null
-  confName: string | undefined
-  setConfName: (name: string) => void
-  baseUrl: string
-  wsUrl: string
-  onWsUrlChange: (url: string) => void
-  onBaseUrlChange: (url: string) => void
-  onSave?: (callback: () => void) => () => void
-  onCancel?: (callback: () => void) => () => void
+  bgUrlContext: BgUrlContextState | null;
+  confName: string | undefined;
+  setConfName: (name: string) => void;
+  baseUrl: string;
+  wsUrl: string;
+  onWsUrlChange: (url: string) => void;
+  onBaseUrlChange: (url: string) => void;
+  onSave?: (callback: () => void) => () => void;
+  onCancel?: (callback: () => void) => () => void;
 }
 
 export const useGeneralSettings = ({
@@ -51,17 +51,17 @@ export const useGeneralSettings = ({
   const getCurrentBgKey = (): string[] => {
     if (!bgUrlContext?.backgroundUrl) return [];
     const currentBgUrl = bgUrlContext.backgroundUrl;
-    const path = currentBgUrl.replace(baseUrl, '');
-    return path.startsWith('/bg/') ? [path] : [];
+    const path = currentBgUrl.replace(baseUrl, "");
+    return path.startsWith("/bg/") ? [path] : [];
   };
 
   const initialSettings: GeneralSettings = {
-    language: ['en'],
-    customBgUrl: !bgUrlContext?.backgroundUrl?.includes('/bg/')
-      ? bgUrlContext?.backgroundUrl || ''
-      : '',
+    language: ["en"],
+    customBgUrl: !bgUrlContext?.backgroundUrl?.includes("/bg/")
+      ? bgUrlContext?.backgroundUrl || ""
+      : "",
     selectedBgUrl: getCurrentBgKey(),
-    backgroundUrl: bgUrlContext?.backgroundUrl || '',
+    backgroundUrl: bgUrlContext?.backgroundUrl || "",
     selectedCharacterPreset: [],
     useCameraBackground: bgUrlContext?.useCameraBackground || false,
     wsUrl: wsUrl || defaultWsUrl,
@@ -70,7 +70,8 @@ export const useGeneralSettings = ({
   };
 
   const [settings, setSettings] = useState<GeneralSettings>(initialSettings);
-  const [originalSettings, setOriginalSettings] = useState<GeneralSettings>(initialSettings);
+  const [originalSettings, setOriginalSettings] =
+    useState<GeneralSettings>(initialSettings);
   const originalConfName = confName;
 
   useEffect(() => {
@@ -78,7 +79,9 @@ export const useGeneralSettings = ({
 
     const newBgUrl = settings.customBgUrl || settings.selectedBgUrl[0];
     if (newBgUrl && bgUrlContext) {
-      const fullUrl = newBgUrl.startsWith('http') ? newBgUrl : `${baseUrl}${newBgUrl}`;
+      const fullUrl = newBgUrl.startsWith("http")
+        ? newBgUrl
+        : `${baseUrl}${newBgUrl}`;
       bgUrlContext.setBackgroundUrl(fullUrl);
     }
 
@@ -121,10 +124,10 @@ export const useGeneralSettings = ({
   ): void => {
     setSettings((prev) => ({ ...prev, [key]: value }));
 
-    if (key === 'wsUrl') {
+    if (key === "wsUrl") {
       onWsUrlChange(value as string);
     }
-    if (key === 'baseUrl') {
+    if (key === "baseUrl") {
       onBaseUrlChange(value as string);
     }
   };
@@ -160,10 +163,12 @@ export const useGeneralSettings = ({
 
   const handleCharacterPresetChange = (value: string[]): void => {
     const selectedFilename = value[0];
-    const selectedConfig = configFiles.find((config) => config.filename === selectedFilename);
-    const currentFilename = confName ? getFilenameByName(confName) : '';
+    const selectedConfig = configFiles.find(
+      (config) => config.filename === selectedFilename,
+    );
+    const currentFilename = confName ? getFilenameByName(confName) : "";
 
-    handleSettingChange('selectedCharacterPreset', value);
+    handleSettingChange("selectedCharacterPreset", value);
 
     if (currentFilename === selectedFilename) {
       return;
@@ -180,16 +185,16 @@ export const useGeneralSettings = ({
     if (checked) {
       try {
         await startBackgroundCamera();
-        handleSettingChange('useCameraBackground', true);
+        handleSettingChange("useCameraBackground", true);
         setUseCameraBackground(true);
       } catch (error) {
-        console.error('Failed to start camera:', error);
-        handleSettingChange('useCameraBackground', false);
+        console.error("Failed to start camera:", error);
+        handleSettingChange("useCameraBackground", false);
         setUseCameraBackground(false);
       }
     } else {
       stopBackgroundCamera();
-      handleSettingChange('useCameraBackground', false);
+      handleSettingChange("useCameraBackground", false);
       setUseCameraBackground(false);
     }
   };

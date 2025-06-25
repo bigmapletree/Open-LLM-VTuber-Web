@@ -25,10 +25,7 @@ interface UseLive2DModelProps {
   modelInfo: ModelInfo | undefined; // Live2D model configuration information
 }
 
-export const useLive2DModel = ({
-  isPet,
-  modelInfo,
-}: UseLive2DModelProps) => {
+export const useLive2DModel = ({ isPet, modelInfo }: UseLive2DModelProps) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const appRef = useRef<PIXI.Application | null>(null);
   const modelRef = useRef<Live2DModel | null>(null);
@@ -144,11 +141,17 @@ export const useLive2DModel = ({
     const { width, height } = isPet
       ? { width: window.innerWidth, height: window.innerHeight }
       : containerRef.current?.getBoundingClientRect() || {
-        width: 0,
-        height: 0,
-      };
+          width: 0,
+          height: 0,
+        };
 
-    resetModelPosition(modelRef.current, width, height, modelInfo?.initialXshift, modelInfo?.initialYshift);
+    resetModelPosition(
+      modelRef.current,
+      width,
+      height,
+      modelInfo?.initialXshift,
+      modelInfo?.initialYshift,
+    );
   }, [modelInfo?.initialXshift, modelInfo?.initialYshift]);
 
   // Load Live2D model with configuration
@@ -187,12 +190,7 @@ export const useLive2DModel = ({
       setIsLoading(false);
       setAiState(AiStateEnum.IDLE);
     }
-  }, [
-    modelInfo?.url,
-    modelInfo?.pointerInteractive,
-    setIsLoading,
-    setupModel,
-  ]);
+  }, [modelInfo?.url, modelInfo?.pointerInteractive, setIsLoading, setupModel]);
 
   const setupModelInteractions = useCallback(
     (model: Live2DModel) => {
@@ -358,7 +356,10 @@ export const useLive2DModel = ({
 const playRandomMotion = (model: Live2DModel, motionGroup: MotionWeightMap) => {
   if (!motionGroup || Object.keys(motionGroup).length === 0) return;
 
-  const totalWeight = Object.values(motionGroup).reduce((sum, weight) => sum + weight, 0);
+  const totalWeight = Object.values(motionGroup).reduce(
+    (sum, weight) => sum + weight,
+    0,
+  );
   let random = Math.random() * totalWeight;
 
   Object.entries(motionGroup).find(([motion, weight]) => {
@@ -378,9 +379,7 @@ const playRandomMotion = (model: Live2DModel, motionGroup: MotionWeightMap) => {
   });
 };
 
-const getMergedMotionGroup = (
-  tapMotions: TapMotionMap,
-): MotionWeightMap => {
+const getMergedMotionGroup = (tapMotions: TapMotionMap): MotionWeightMap => {
   const mergedMotions: {
     [key: string]: { total: number; count: number };
   } = {};

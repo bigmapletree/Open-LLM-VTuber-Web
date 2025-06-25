@@ -59,7 +59,9 @@ export function useIpcHandlers({ isPet }: { isPet: boolean }) {
     window.electron.ipcRenderer.removeAllListeners("toggle-scroll-to-resize");
     window.electron.ipcRenderer.removeAllListeners("switch-character");
     window.electron.ipcRenderer.removeAllListeners("toggle-force-ignore-mouse");
-    window.electron.ipcRenderer.removeAllListeners("force-ignore-mouse-changed");
+    window.electron.ipcRenderer.removeAllListeners(
+      "force-ignore-mouse-changed",
+    );
 
     window.electron.ipcRenderer.on("mic-toggle", micToggleHandler);
     window.electron.ipcRenderer.on("interrupt", interruptHandler);
@@ -84,8 +86,12 @@ export function useIpcHandlers({ isPet }: { isPet: boolean }) {
         "toggle-scroll-to-resize",
       );
       window.electron?.ipcRenderer.removeAllListeners("switch-character");
-      window.electron?.ipcRenderer.removeAllListeners("toggle-force-ignore-mouse");
-      window.electron?.ipcRenderer.removeAllListeners("force-ignore-mouse-changed");
+      window.electron?.ipcRenderer.removeAllListeners(
+        "toggle-force-ignore-mouse",
+      );
+      window.electron?.ipcRenderer.removeAllListeners(
+        "force-ignore-mouse-changed",
+      );
     };
   }, [
     micToggleHandler,
