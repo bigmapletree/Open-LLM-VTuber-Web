@@ -1,9 +1,15 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { contextBridge, ipcRenderer, desktopCapturer } from 'electron';
+import { contextBridge, ipcRenderer, desktopCapturer, IpcRendererEvent } from 'electron';
 import { electronAPI } from '@electron-toolkit/preload';
 import { ConfigFile } from '../main/menu-manager';
+import { TucaoData } from '../types/tucao_data';
 
 const api = {
+  onPlayTucao: (callback: (task: TucaoData) => void) => {
+    const handler = (_event: IpcRendererEvent, task: TucaoData) => callback(task);
+    ipcRenderer.on('play-tucao', handler);
+    return () => ipcRenderer.removeListener('play-tucao', handler);
+  },
   setIgnoreMouseEvents: (ignore: boolean) => {
     ipcRenderer.send('set-ignore-mouse-events', ignore);
   },
