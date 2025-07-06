@@ -232,13 +232,11 @@ export const useLive2DModel = ({ isPet, modelInfo }: UseLive2DModelProps) => {
             (window.api as any)?.updateComponentHover("live2d-model", false);
           }
         });
-
-        model.on("rightdown", (e: any) => {
-          e.data.originalEvent.preventDefault();
-          (window.api as any).showContextMenu();
-        });
       }
-
+      model.on("rightdown", (e: any) => {
+        e.data.originalEvent.preventDefault();
+        (window.api as any).showContextMenu();
+      });
       model.on("pointerdown", (e) => {
         if (e.button === 0) {
           dragging = true;
